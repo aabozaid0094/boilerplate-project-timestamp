@@ -18,6 +18,18 @@ app.get("/", function (req, res) {
     res.sendFile(__dirname + "/views/index.html");
 });
 
+let isDateString = (date) => {
+    return isNaN(Date.parse(date)) ? false : true;
+};
+let isUnixTimestamp = (date) => {
+    let timestamp = date * 1000;
+    let time = new Date(timestamp);
+    return isNaN(Date.parse(time)) ? false : true;
+};
+let isValidDate = (date) => {
+    return isDateString(date) || isUnixTimestamp(date);
+};
+
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
