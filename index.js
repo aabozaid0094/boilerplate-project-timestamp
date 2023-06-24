@@ -30,6 +30,17 @@ let isValidDate = (date) => {
     return isDateString(date) || isUnixTimestamp(date);
 };
 
+let timeType = (req, res, next) => {
+    const timestamp = req.params.timestamp;
+    if (isValidDate(timestamp)) {
+        let jsTimestamp = (isUnixTimestamp(timestamp)) ? new Date(parseInt(timestamp)) : new Date(timestamp) ;
+        req.timestampUNIX = jsTimestamp.getTime();
+        req.timestampUTC = jsTimestamp.toUTCString();
+    }
+    next();
+};
+
+app.use("/api/:timestamp", timeType);
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
