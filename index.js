@@ -42,9 +42,16 @@ let timeType = (req, res, next) => {
 
 app.use("/api/:timestamp", timeType);
 
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+// your first API endpoint...
+app.get("/api/:timestamp", function (req, res) {
+    if (req.timestampUNIX && req.timestampUTC) {
+        res.json({
+            unix: req.timestampUNIX,
+            utc: req.timestampUTC,
+        });
+    } else {
+        res.json({ error: "Invalid Date" });
+    }
 });
 
 
